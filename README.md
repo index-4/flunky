@@ -2,7 +2,7 @@
 A simple flutter wrapper that generates a fluro router spec file from pages directory entries.
 
 ## Project structure
-In order to correctly parse your project flunky needs a specific project stucture.
+In order to correctly parse your project flunky needs a specific project structure.
 Projects should be arranged like this:
 
 - lib  
