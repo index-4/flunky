@@ -1,0 +1,7 @@
+#!/bin/bash
+
+echo "building for linux..."
+v main.v -o build/flunky
+
+echo "building for windows..."
+v main.v -o build/flunky.exe
