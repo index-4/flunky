@@ -32,7 +32,7 @@ fn generate_router_define_str(route Route) []string {
 	]
 }
 
-pub fn build_router(tokens [][]string, package_name string) ? {
+pub fn build_router(tokens [][]string, package_name string, dirs_to_ignore []string) ? {
 
 	package_template := "import 'package:$package_name/pages/"
 	mut router_template := [
@@ -41,12 +41,14 @@ pub fn build_router(tokens [][]string, package_name string) ? {
 	]
 
 	// generate imports
-	for token_list in tokens {
+	dependency_root: for token_list in tokens {
 		mut path := package_template
 		for token in token_list {
 			if token.contains(".dart") {
 				path = "$path$token"
 				router_template << "$path';"
+			} else if token in dirs_to_ignore {
+				continue dependency_root
 			} else {
 				path = "$path$token/"
 			}
@@ -64,7 +66,7 @@ pub fn build_router(tokens [][]string, package_name string) ? {
 	mut args_classname_re := pcre.new_regex(r"class (.*Args)", 0)?
 
 	// generate handlers
-	for token_list in tokens {
+	handler_root: for token_list in tokens {
 		mut route := Route{ path: "", handler_recv: "" }
 		for token in token_list {
 			if token.contains(".dart") {
@@ -87,6 +89,8 @@ pub fn build_router(tokens [][]string, package_name string) ? {
 					}
 					route.path += "/$sanitized_token"
 				}
+			} else if token in dirs_to_ignore {
+				continue handler_root
 			} else {
 				route.path += "/$token"
 			}
