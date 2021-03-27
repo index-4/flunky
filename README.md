@@ -1,5 +1,5 @@
 # flunky
-A simple flutter wrapper that generates a fluro router spec file from pages directory entries.
+A simple flutter wrapper that generates a [fluro](https://pub.dev/packages/fluro) router spec file from pages directory entries.
 
 ## Project structure
 In order to correctly parse your project flunky needs a specific project structure.
@@ -67,3 +67,6 @@ Exec `flunky flunk` in project root.
 
 ### router spec and flutter run
 Exec `flunky` in project root.
+
+## Configurations
+Handy launch configurations are given for VSCode and Android Studio in their respective config directories (`.vscode` / `.run`).

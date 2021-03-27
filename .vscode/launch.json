@@ -1,0 +1,11 @@
+{
+    "configurations": [
+        {
+            "name": "Flunky launch",
+            "type": "dart",
+            "preLaunchTask": "flunk",
+            "request": "launch",
+            "program": "lib/main.dart"
+        }
+    ]
+}

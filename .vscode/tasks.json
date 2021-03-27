@@ -1,0 +1,15 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "flunk",
+            "type": "process",
+            "command": "flunky",
+            "args": [
+                "flunk"
+            ],
+            "problemMatcher": [],
+            "group": "none"
+        }
+    ]
+}   
