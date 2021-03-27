@@ -22,12 +22,12 @@ import 'package:project_name/pages/page.dart';
 import 'package:project_name/pages/subdir/_paramOne.dart';
 import 'package:project_name/pages/subdir/subpage.dart';
 
-class Router {
-    static final Router _instance = Router._internal();
-    factory Router() => _instance;
+class ProjectNameRouter {
+    static final ProjectNameRouter _instance = ProjectNameRouter._internal();
+    factory ProjectNameRouter() => _instance;
     static final router = FluroRouter();
 
-    Router._internal() {
+    ProjectNameRouter._internal() {
         router.define(
             "/page",
             handler: Handler(
