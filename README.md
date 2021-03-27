@@ -72,7 +72,7 @@ Exec `flunky` in project root.
 Handy launch configurations are given for VSCode and Android Studio in their respective config directories (`.vscode` / `.run`).
 
 ## Options
-```shell
+```
 help | h              : displays this help message
 version | v           : displays Flunky version
 flunk                 : only generate router file and don't execute flutter run afterwards
