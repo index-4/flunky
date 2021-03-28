@@ -1,3 +1,5 @@
+<img src="assets/flunky_logo.svg" alt="drawing" width="120"/>
+
 # flunky
 A simple flutter wrapper that generates a [fluro](https://pub.dev/packages/fluro) router spec file from pages directory entries.
 
