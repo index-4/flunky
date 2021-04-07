@@ -21,7 +21,7 @@ fn main() {
 
 	match args.command {
 		"help", "h" { print_help() }
-		"version", "v" { println("v1.1.1") exit(0) }
+		"version", "v" { println("v1.1.2") exit(0) }
 		else {
 			// subdirs interpreted as command
 			args.unknown << args.command
