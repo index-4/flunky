@@ -8,9 +8,10 @@ fn print_help() {
 	println("It's gettin a little flunky in here!")
 	println("Welcome to Flunky a smol Flutter wrapper that adds automatic fluro router generation as the new cool kid of the block.\n")
 	println("Cause it basically is a wrapper FLunky supports all flutter commands that you are used to. The only Flunky specific commands are:")
-	println("  help | h              : displays this help message")
-	println("  version | v           : displays Flunky version")
-	println("  flunk                 : only generate router file and don't execute flutter run afterwards")
+	println("  help | h                : displays this help message")
+	println("  version | v             : displays Flunky version")
+	println("  flunk                   : only generate router file and don't execute flutter run afterwards")
+	println("  generate | g {template} : generates useful flunky templates; for a list of available templates exec `generate help`")
 	println("  {subdir1 subdir2 ...} : add subdirectories that should be ignored by the generator; per default 'widgets' and 'components' subdirs are ignored")
 	exit(0)
 }
@@ -21,7 +22,8 @@ fn main() {
 
 	match args.command {
 		"help", "h" { print_help() }
-		"version", "v" { println("v1.1.2") exit(0) }
+		"version", "v" { println("%version_placeholder%") exit(0) }
+		"generate", "g" { internals.generate_template(args.unknown.join("")) exit(0) }
 		else {
 			// subdirs interpreted as command
 			args.unknown << args.command
