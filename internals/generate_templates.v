@@ -19,7 +19,7 @@ fn generate_help() {
 }
 
 fn generate_not_found() ? {
-	not_found_template := "import 'package:fluro/fluro.dart';import 'package:flutter/material.dart';class TestHandler extends Handler { @override get handlerFunc => (context, params) {return Scaffold(body: Center(child: Text(\"Route not found!\"),),);};}"
+	not_found_template := "import 'package:fluro/fluro.dart';import 'package:flutter/material.dart';class NotFoundHandler extends Handler { NotFoundHandler() : super(handlerFunc: (context, params) {return Scaffold(body: Center(child: Text(\"Route not found!\"),),);});}"
 	os.write_file("./lib/notFound.dart", not_found_template)?
 	os.execute("dart format ./lib/notFound.dart")
 }

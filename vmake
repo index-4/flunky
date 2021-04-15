@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="v1.2.0"
+VERSION="v1.2.1"
 
 sed -i s/%version_placeholder%/$VERSION/g main.v internals/build.v
 
