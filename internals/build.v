@@ -16,7 +16,7 @@ fn generate_router_define_str(route Route) []string {
 	if route.string_param != "" {
 		handler = 'return ${route.handler_recv}(params["${route.string_param}"]![0]);'
 	} else if route.class_param != "" {
-		handler = "return ${route.handler_recv}(context!.settings!.arguments as ${route.class_param});"
+		handler = "return ${route.handler_recv}(${route.class_param}.fromNullable(context!.settings!.arguments));"
 	} else {
 		handler = "return ${route.handler_recv}();"
 	}
