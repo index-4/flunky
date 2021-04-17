@@ -30,6 +30,9 @@ class ProjectNameRouter {
     static final router = FluroRouter();
 
     ProjectNameRouter._internal() {
+        router.notFoundHandler = Handler(handlerFunc: (context, params) {
+            return Text("404 - Route not Found");
+        });
         router.define(
             "/page",
             handler: Handler(
@@ -62,6 +65,9 @@ class ProjectNameRouter {
 }
 ```
 
+### Route notFound handler
+As you can see in the example above flunky generates a default “notFound” route handler. It's not very sophisticated though. If you want to add your own handler just add a file named `notFound.dart` in your lib dir. The file should contain a class that extends Fluros Handler class.
+
 ## Usage
 
 ### router spec only
@@ -70,13 +76,17 @@ Exec `flunky flunk` in project root.
 ### router spec and flutter run
 Exec `flunky` in project root.
 
+## Templates
+Via `flunky generate` you can generate useful default templates for flunky. Execute `flunky generate help` for a complete list of available templates. 
+
 ## Configurations
 Handy launch configurations are given for VSCode and Android Studio in their respective config directories (`.vscode` / `.run`).
 
 ## Options
 ```
-help | h              : displays this help message
-version | v           : displays Flunky version
-flunk                 : only generate router file and don't execute flutter run afterwards
-{subdir1 subdir2 ...} : add subdirectories that should be ignored by the generator; per default 'widgets' and 'components' subdirs are ignored
+help | h                : displays this help message
+version | v             : displays Flunky version
+flunk                   : only generate router file and don't execute flutter run afterwards
+generate | g {template} : generates useful flunky templates; for a list of available templates exec `generate help`
+{subdir1 subdir2 ...}   : add subdirectories that should be ignored by the generator; per default 'widgets' and 'components' subdirs are ignored
 ```
