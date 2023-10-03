@@ -1,13 +1,14 @@
 #!/bin/bash
 
-VERSION="v1.2.2"
+VERSION="v1.2.3"
 
 sed -i s/%version_placeholder%/$VERSION/g main.v internals/build.v
 
-echo "building for linux..."
-v main.v -o build/flunky
+if [ ! -d "build" ]; then
+    mkdir "build"
+fi
 
-echo "building for windows..."
-v main.v -o build/flunky.exe
+echo "building for linux..."
+v . -os linux -o build/flunky
 
 sed -i s/$VERSION/%version_placeholder%/g main.v internals/build.v

@@ -39,7 +39,7 @@ fn main() {
 	// add default ignore subdirs
 	args.unknown << ["widgets", "components"]
 
-	dir_entries := os.ls(".")?
+	dir_entries := os.ls(".")!
 	if !("pubspec.yaml" in dir_entries) {
 		panic("Seems like that's not a flutter/dart project!")
 	}
@@ -51,6 +51,6 @@ fn main() {
 	os.execute("dart format ./lib/router.dart")
 
 	if args.command != "flunk" && !("flunk" in args.unknown) { // also exec flutter
-		os.execvp("flutter", args.join_valid())?
+		os.execvp("flutter", args.unknown)!
 	}
 }

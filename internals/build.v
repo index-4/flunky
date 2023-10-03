@@ -18,7 +18,7 @@ fn generate_router_define_str(route Route) []string {
 	} else if route.class_param != "" {
 		handler = "return ${route.handler_recv}(${route.class_param}.fromNullable(context!.settings!.arguments));"
 	} else {
-		handler = "return ${route.handler_recv}();"
+		handler = "return const ${route.handler_recv}();"
 	}
 	return [
 		"router.define(",
@@ -40,12 +40,19 @@ pub fn build_router(tokens [][]string, package_name string, dirs_to_ignore []str
 	]
 
 	// check for custom notFound Handler
-	lib_entries := os.ls("./lib")?
+	lib_entries := os.ls("./lib") or {
+		panic("Couldn't list lib directory!")
+	}
 	mut not_found_handler := ""
 
 	if "notFound.dart" in lib_entries {
-		mut handler_re := pcre.new_regex(r"class (.*) extends Handler", 0)?
-		handler_name := handler_re.match_str(os.read_file("./lib/notFound.dart")?, 0, 0) or {
+		mut handler_re := pcre.new_regex(r"class (.*) extends Handler", 0) or {
+			panic("Couldn't create handler regex!")
+		}
+		not_found_handler_file := os.read_file("./lib/notFound.dart") or {
+			panic("Couldn't read from custom notFound handler!")
+		}
+		handler_name := handler_re.match_str(not_found_handler_file, 0, 0) or {
 			panic("Custom notFound handler exists but no Handler implementation could be found!")
 		}
 		router_template << "import 'package:$package_name/notFound.dart';"
@@ -78,8 +85,12 @@ pub fn build_router(tokens [][]string, package_name string, dirs_to_ignore []str
 	router_template << "${package_name.capitalize()}Router._internal() {"
 	router_template << not_found_handler
 	
-	mut classname_re := pcre.new_regex(r"class (.*) extends .*Widget", 0)?
-	mut args_classname_re := pcre.new_regex(r"class (.*Args)", 0)?
+	mut classname_re := pcre.new_regex(r"class (.*) extends .*Widget", 0) or {
+		panic("Could not create classname regex!")
+	}
+	mut args_classname_re := pcre.new_regex(r"class (.*Args)", 0) or {
+		panic("Could not create classname args regex!")
+	}
 	
 	// generate handlers
 	handler_root: for token_list in tokens {
@@ -87,11 +98,15 @@ pub fn build_router(tokens [][]string, package_name string, dirs_to_ignore []str
 		for token in token_list {
 			if token.contains(".dart") {
 				// receiver
-				route_file := os.read_file("./lib/pages${route.path}/$token")?
+				route_file := os.read_file("./lib/pages${route.path}/$token") or {
+					panic("File /lib/pages${route.path}/$token not found!")
+				}
 				name := classname_re.match_str(route_file, 0, 0) or {
 					panic("No widget found in $token!")
 				}
-				route.handler_recv = name.get(1)?
+				route.handler_recv = name.get(1) or {
+					panic("No receiver name found!")
+				}
 
 				// params
 				sanitized_token := token.replace(".dart", "")
@@ -100,7 +115,9 @@ pub fn build_router(tokens [][]string, package_name string, dirs_to_ignore []str
 					route.path += "/:${route.string_param}"
 				} else {
 					if args_classname_m := args_classname_re.match_str(route_file, 0, 0) {
-						route.class_param = args_classname_m.get(1)?
+						route.class_param = args_classname_m.get(1) or {
+							panic("No classname found for $args_classname_m")
+						}
 					}
 					route.path += "/$sanitized_token"
 				}
