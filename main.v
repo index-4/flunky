@@ -47,7 +47,7 @@ fn main() {
 	package_name := os.read_lines("./pubspec.yaml")?[0].replace("name: ", "")
 
 	tokens := internals.tokenize_dir("./lib/pages")
-	internals.build_router(tokens, package_name, args.unknown)?
+	internals.build_router(tokens, package_name, args.unknown)!
 	os.execute("dart format ./lib/router.dart")
 
 	if args.command != "flunk" && !("flunk" in args.unknown) { // also exec flutter

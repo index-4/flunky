@@ -5,8 +5,8 @@ import pcre
 
 struct Route {
 mut:
-	path string [required]
-	handler_recv string [required]
+	path string @[required]
+	handler_recv string @[required]
 	string_param string
 	class_param string
 }
@@ -32,7 +32,7 @@ fn generate_router_define_str(route Route) []string {
 	]
 }
 
-pub fn build_router(tokens [][]string, package_name string, dirs_to_ignore []string) ? {
+pub fn build_router(tokens [][]string, package_name string, dirs_to_ignore []string) ! {
 
 	package_template := "import 'package:$package_name/pages/"
 	mut router_template := [
@@ -56,7 +56,7 @@ pub fn build_router(tokens [][]string, package_name string, dirs_to_ignore []str
 			panic("Custom notFound handler exists but no Handler implementation could be found!")
 		}
 		router_template << "import 'package:$package_name/notFound.dart';"
-		not_found_handler = "router.notFoundHandler = ${handler_name.get(1)?}();"
+		not_found_handler = "router.notFoundHandler = ${handler_name.get(1)!}();"
 	} else {
 		router_template << "import 'package:flutter/material.dart';"
 		not_found_handler = 'router.notFoundHandler = Handler(handlerFunc: (context, params) {return Text("404 - Route not Found");});'
